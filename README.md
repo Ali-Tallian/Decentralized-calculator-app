@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# 🧮 Blockchain Calculator DApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple decentralized application (DApp) that performs basic arithmetic operations — Addition, Subtraction, Multiplication, and Division — using a smart contract deployed on the Ethereum blockchain. Users can interact with the contract through a web-based frontend integrated with MetaMask.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- Perform arithmetic operations on-chain
+- Smart contract written in Solidity
+- Frontend built with HTML, Bootstrap (black and blue theme), and JavaScript
+- Interacts with MetaMask for wallet connection and transactions
+- Runs locally using Ganache for testing
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📂 Project Structure
 
-### `npm test`
+├── contracts/
+│ └── Calculator.sol # Solidity Smart Contract
+├── index.html # Frontend UI with Bootstrap styling
+├── app.js # JavaScript file for Web3 interactions
+├── README.md # Project Documentation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠️ Technologies Used
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Solidity** — Smart contract language
+- **Ganache** — Local Ethereum blockchain for testing
+- **MetaMask** — Ethereum wallet for browser
+- **Web3.js** — JavaScript library to interact with Ethereum
+- **Bootstrap 5** — UI styling (black & blue theme)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 📦 Setup Instructions
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 1. Clone the Repository
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+git clone https://github.com/your-username/blockchain-calculator-dapp.git
+cd blockchain-calculator-dapp
+2. Install Ganache
+Download Ganache
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Start a workspace and copy the RPC URL (e.g., http://127.0.0.1:7545)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Compile & Deploy Smart Contract
+Use Remix IDE
 
-## Learn More
+Paste the contents of Calculator.sol into a new file
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Compile and deploy it using the "Injected Provider" (MetaMask connected to Ganache)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Copy the deployed contract address and ABI
 
-### Code Splitting
+4. Configure Frontend
+In app.js, update the contract address and ABI:
+const contractAddress = "PASTE_DEPLOYED_ADDRESS_HERE";
+const contractABI = [PASTE_ABI_HERE];
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+5. Serve the Frontend
+npm start

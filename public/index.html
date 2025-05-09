@@ -1,43 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator DApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <link
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input, button { padding: 10px; margin: 5px; font-size: 16px; }
+    #result { font-weight: bold; color: blue; }
+  </style>
+</head>
+<body class="bg-dark text-light">
+  <div class="container py-5">
+    <h1 class="text-center text-primary mb-4">🧮 Calculator DApp on Ethereum</h1>
+    
+    <div class="mb-3">
+      <label for="num1" class="form-label">Number 1:</label>
+      <input type="number" id="num1" class="form-control bg-secondary text-light" placeholder="Enter first number">
+    </div>
+    
+    <div class="mb-3">
+      <label for="num2" class="form-label">Number 2:</label>
+      <input type="number" id="num2" class="form-control bg-secondary text-light" placeholder="Enter second number">
+    </div>
+    
+    <div class="d-flex justify-content-center gap-3 mb-4">
+      <button class="btn btn-primary" onclick="calculate('add')">Add (+)</button>
+      <button class="btn btn-primary" onclick="calculate('subtract')">Subtract (-)</button>
+      <button class="btn btn-primary" onclick="calculate('multiply')">Multiply (*)</button>
+      <button class="btn btn-primary" onclick="calculate('divide')">Divide (/)</button>
+    </div>
+    
+    <h2 class="text-info text-center">✅ Result: <span id="result">0</span></h2>
+    <p id="status" class="text-warning text-center"></p>
+  </div>
+  <p id="status"></p>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <script>
+    let web3;
+    let contract;
+    let accounts;
+
+    const contractAddress = "0x716D4930fD1f4460BC79A20eAd1E8813aF2e098e";
+    const abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "b",
+				"type": "int256"
+			}
+		],
+		"name": "add",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "b",
+				"type": "int256"
+			}
+		],
+		"name": "divide",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "b",
+				"type": "int256"
+			}
+		],
+		"name": "multiply",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "result",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "b",
+				"type": "int256"
+			}
+		],
+		"name": "subtract",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+
+    window.addEventListener('load', async () => {
+      const statusEl = document.getElementById("status");
+      statusEl.textContent = "Initializing...";
+
+      if (contractAddress != "0x716D4930fD1f4460BC79A20eAd1E8813aF2e098e" || abi.length === 0) {
+        alert("Contract address or ABI not set.");
+        statusEl.textContent = "Error: Contract details missing.";
+        return;
+      }
+
+      if (typeof window.ethereum !== 'undefined') {
+        web3 = new Web3(window.ethereum);
+        try {
+          statusEl.textContent = "Requesting MetaMask access...";
+          accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+          statusEl.textContent = "Connected: " + accounts[0].substring(0, 10) + "...";
+          contract = new web3.eth.Contract(abi, contractAddress);
+          displayCurrentResult();
+        } catch (error) {
+          console.error("MetaMask error", error);
+          statusEl.textContent = "MetaMask error: " + error.message;
+        }
+      } else {
+        alert("Please install MetaMask.");
+        statusEl.textContent = "MetaMask not detected.";
+      }
+    });
+
+    async function displayCurrentResult() {
+      const resultEl = document.getElementById("result");
+      if (!contract) return;
+      try {
+        resultEl.textContent = "Fetching...";
+        const res = await contract.methods.result().call();
+        resultEl.textContent = res;
+      } catch (error) {
+        console.error("Error fetching result", error);
+        resultEl.textContent = "Error";
+        document.getElementById("status").textContent = "Error fetching result: " + error.message;
+      }
+    }
+
+    async function calculate(operation) {
+      const statusEl = document.getElementById("status");
+      if (!contract || !accounts || accounts.length === 0) {
+        alert("DApp not ready. Connect MetaMask.");
+        statusEl.textContent = "DApp not ready.";
+        return;
+      }
+
+      const num1 = document.getElementById("num1").value;
+      const num2 = document.getElementById("num2").value;
+
+      if (num1 === "" || num2 === "") {
+        alert("Please enter both numbers.");
+        statusEl.textContent = "Missing input.";
+        return;
+      }
+
+      const a = parseInt(num1);
+      const b = parseInt(num2);
+      if (isNaN(a) || isNaN(b)) {
+        alert("Invalid number(s).");
+        statusEl.textContent = "Invalid input.";
+        return;
+      }
+
+      let transactionMethod;
+      if (operation === "add") transactionMethod = contract.methods.add(a, b);
+      else if (operation === "subtract") transactionMethod = contract.methods.subtract(a, b);
+      else if (operation === "multiply") transactionMethod = contract.methods.multiply(a, b);
+      else if (operation === "divide") {
+        if (b === 0) {
+          alert("Cannot divide by zero.");
+          document.getElementById("result").textContent = "Error: Division by zero";
+          statusEl.textContent = "Error: Division by zero.";
+          return;
+        }
+        transactionMethod = contract.methods.divide(a, b);
+      } else {
+        alert("Unknown operation.");
+        statusEl.textContent = "Error: Unknown operation.";
+        return;
+      }
+
+      document.getElementById("result").textContent = "Processing...";
+      statusEl.textContent = `Sending ${operation} transaction...`;
+
+      try {
+        const receipt = await transactionMethod.send({ from: accounts[0] });
+        displayCurrentResult();
+        statusEl.textContent = `${operation} successful. Tx hash: ${receipt.transactionHash}`;
+      } catch (error) {
+        console.error("Transaction failed", error);
+        statusEl.textContent = "Transaction error: " + error.message;
+        document.getElementById("result").textContent = "Error";
+      }
+    }
+  </script>
+</body>
 </html>
