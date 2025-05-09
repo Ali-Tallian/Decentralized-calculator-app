@@ -56,11 +56,11 @@ Compile and deploy it using the "Injected Provider" (MetaMask connected to Ganac
 
 Copy the deployed contract address and ABI
 
-4. Configure Frontend
+### 4. Configure Frontend
 In app.js, update the contract address and ABI:
 const contractAddress = "PASTE_DEPLOYED_ADDRESS_HERE";
 const contractABI = [PASTE_ABI_HERE];
 
-5. Serve the Frontend
+### 5. Serve the Frontend
 ```bash
 npm start
