@@ -42,16 +42,13 @@ A simple decentralized application (DApp) that performs basic arithmetic operati
 ```bash
 git clone https://github.com/your-username/blockchain-calculator-dapp.git
 cd blockchain-calculator-dapp
+```
 
 ### 2. Install Ganache
- 
-Download Ganache
-
-Start a workspace and copy the RPC URL (e.g., http://127.0.0.1:7545)
+Download Ganache and start a workspace. Copy the RPC URL (e.g., http://127.0.0.1:7545).
 
 ### 3. Compile & Deploy Smart Contract
-Use Remix IDE
- 
+Use Remix IDE:
 
 Paste the contents of Calculator.sol into a new file
 
@@ -59,11 +56,11 @@ Compile and deploy it using the "Injected Provider" (MetaMask connected to Ganac
 
 Copy the deployed contract address and ABI
 
-### 4. Configure Frontend
+4. Configure Frontend
 In app.js, update the contract address and ABI:
 const contractAddress = "PASTE_DEPLOYED_ADDRESS_HERE";
 const contractABI = [PASTE_ABI_HERE];
 
-### 5. Serve the Frontend
+5. Serve the Frontend
 ```bash
 npm start
